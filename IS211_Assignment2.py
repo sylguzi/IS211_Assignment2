@@ -8,9 +8,21 @@ import logging
 import argparse
 
 def downloadData(url):
+    """
+    Read a URL and return its content as string
+
+    :param some_url:
+    :return:
+    """
     return urllib2.urlopen(url).read()
 
 def processData(content, assignment2):
+    """
+    Takes a string as CSV and do some magic
+
+    :param response_html:
+    :return:
+    """
     personData = {}
     # split the content by '\n' to get each line individually
     # each line from the csv file will be convert to a person dictionary and put into a list
@@ -33,6 +45,8 @@ def processData(content, assignment2):
     return personData, count
 
 def displayPerson(id, personData):
+    """Displays the information unless no ID is found
+    """
     try:
         (name, birthday) = personData[str(id)]
         print('Person #{} is {} with a birthday of {}'.format(
@@ -43,6 +57,8 @@ def displayPerson(id, personData):
         print('No result found with that id {}'.format(id))
 
 def parseParam():
+    """Parses the data
+    """
     parser = argparse.ArgumentParser(description=
 	'Parsing a file and give person information based on user input')
     parser.add_argument('-u','--url',
@@ -51,12 +67,16 @@ def parseParam():
     return parser.parse_args()
 
 def createLogger(filename='errors.log'):
+    """Creates logger; writes to the handler
+    """
     logger = logging.getLogger('assignment2')
     hdlr = logging.FileHandler(filename, mode='w')
     logger.addHandler(hdlr)
     return logger
 
 def readRawInput(personData):
+    """Takes in user input. Exits if input is <=0, but otherwise gives info
+    """
     while(True):
         try:
             id = int(raw_input("Enter the id of the person you want to see the information: "))
